@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_app/modules/login_screen/cubit/cubit.dart';
 import 'package:shop_app/modules/login_screen/cubit/state.dart';
 import 'package:shop_app/modules/register_screen/register_screen.dart';
@@ -17,7 +18,35 @@ class Login_Screen extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+
+            if (state is LoginSuccessState) {
+              if (state.loginModel.status == true) {
+                Fluttertoast.showToast(
+                    msg: "${state.loginModel.message}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 5,
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                    fontSize: 16.0
+                );
+
+              }else {
+                Fluttertoast.showToast(
+                msg: "${state.loginModel.message}",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 5,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+                );
+              }
+
+            }
+          },
+
         builder: (context, state) {
           return Scaffold(
             body: SafeArea(
@@ -51,7 +80,7 @@ class Login_Screen extends StatelessWidget {
                             height: 30,
                           ),
                           defaultFormField(
-                            prefix:Icons.email_outlined ,
+                              prefix: Icons.email_outlined,
                               controller: emailControlar,
                               keybord: TextInputType.emailAddress,
                               validate: (value) {
@@ -63,29 +92,29 @@ class Login_Screen extends StatelessWidget {
                             height: 15,
                           ),
                           defaultFormField(
-                            prefix: Icons.lock_outline,
-                            isPassword: LoginCubit.get(context).isPassword,
-                            suffix: LoginCubit.get(context).suffix,
-                            controller: passwordControlar,
-                            keybord: TextInputType.visiblePassword,
-                            onSubmit: (valuee) {
-                              if (formKey.currentState!.validate()) {
-                                LoginCubit.get(context).userLogin(
-                                  email: emailControlar.text,
-                                  password: passwordControlar.text,
-                                );
-                              }
-                            },
-                            validate: (value) {
-                              if (value!.isEmpty) {
-                                return 'Password is to short';
-                              }
-                            },
-                            lable: 'Password',
-                           suffixPressed: (){
-                             LoginCubit.get(context).ChangePasswordVisibility();
-                           }
-                          ),
+                              prefix: Icons.lock_outline,
+                              isPassword: LoginCubit.get(context).isPassword,
+                              suffix: LoginCubit.get(context).suffix,
+                              controller: passwordControlar,
+                              keybord: TextInputType.visiblePassword,
+                              onSubmit: (valuee) {
+                                if (formKey.currentState!.validate()) {
+                                  LoginCubit.get(context).userLogin(
+                                    email: emailControlar.text,
+                                    password: passwordControlar.text,
+                                  );
+                                }
+                              },
+                              validate: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Password is to short';
+                                }
+                              },
+                              lable: 'Password',
+                              suffixPressed: () {
+                                LoginCubit.get(context)
+                                    .ChangePasswordVisibility();
+                              }),
                           const SizedBox(
                             height: 15,
                           ),
