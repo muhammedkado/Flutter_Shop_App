@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/modules/login_screen/login_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
+import 'package:shop_app/shared/network/local/cashe_helper.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -41,10 +42,33 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   bool isLast = false;
 
   PageController pageController = PageController();
+void submit(){
+  CachHelper.saveData(key: 'onBoarding', value: true).then((value)
+  {
+  if(value)
+  {
+    NavigatorAndFinish(
+        Widget: Login_Screen(), context: context);
+  }
+  }
+  );
 
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        actions: [
+          defaultTextButton(function: ()
+          {
+            submit();
+          },
+            lable:'SKIP',
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(
@@ -86,8 +110,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 FloatingActionButton(
                   onPressed: () {
                     if (isLast) {
-                      NavigatorAndFinish(
-                          Widget: Login_Screen(), context: context);
+                      submit();
                     } else {
                       pageController.nextPage(
                           duration: const Duration(milliseconds: 1000),

@@ -1,5 +1,7 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
-import 'package:shop_app/shared/styles/colors.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 NavigatorAndFinish({required context, required Widget}) =>
     Navigator.pushAndRemoveUntil(context,
@@ -87,3 +89,39 @@ Widget defaultTextButton({
       },
       child: Text(lable.toUpperCase()),
     );
+
+void ShowTost({required String msg, required TostState state}) =>
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 5,
+        backgroundColor: ChooseTostColor(state),
+        textColor: Colors.white,
+        fontSize: 16.0);
+
+enum TostState { WARNING, SUCCESS, ERROR }
+
+Color? ChooseTostColor(TostState state) {
+  Color color;
+  switch (state) {
+    case TostState.ERROR:
+      {
+        color= Colors.red;
+
+      }
+      break;
+    case TostState.WARNING:
+      {
+        color= Colors.amber;
+      }
+      break;
+    case TostState.SUCCESS:
+      {
+        color= Colors.green;
+      }
+      break;
+
+  }
+  return color;
+}
