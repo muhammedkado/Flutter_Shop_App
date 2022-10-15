@@ -14,9 +14,26 @@ class CachHelper {
     return await _sharedPreferences.setBool(key, value);
   }
 
-  static bool? getData({
-    required String key,
+  static dynamic getData({
+    required dynamic key,
   }) {
-    return _sharedPreferences.getBool(key);
+    return _sharedPreferences.get(key);
+  }
+
+  static Future<dynamic> saveData({
+    required String key,
+    required dynamic value,
+  }) async {
+   if (value is String) return await  _sharedPreferences.setString(key,value);
+   if (value is bool) return await _sharedPreferences.setBool(key, value);
+   if (value is int) return await _sharedPreferences.setInt(key, value);
+   return _sharedPreferences.setDouble(key, value);
+  }
+
+
+  static dynamic removeData({
+    required dynamic key,
+  }) {
+    return _sharedPreferences.remove(key);
   }
 }
