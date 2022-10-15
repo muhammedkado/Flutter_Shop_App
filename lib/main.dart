@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/layout/home_layout.dart';
-import 'package:shop_app/modules/login_screen/login_screen.dart';
+import 'package:shop_app/modules/login/login_screen.dart';
+
 import 'package:shop_app/modules/on_boarding/on_boarding_screen.dart';
 import 'package:shop_app/shared/network/local/cashe_helper.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';

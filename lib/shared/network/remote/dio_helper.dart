@@ -1,16 +1,13 @@
 import 'package:dio/dio.dart';
 
 class DioHelper {
-  static Dio? dio=Dio();
+  static Dio? dio = Dio();
   static init() {
     dio = Dio(
       BaseOptions(
           baseUrl: 'https://student.valuxapps.com/api/',
           receiveDataWhenStatusError: true,
-          headers: {
-            'Content-Type': 'application/json',
-            'lang':'ar'
-          }),
+          headers: {'Content-Type': 'application/json', 'lang': 'ar',},),
     );
   }
 
@@ -20,34 +17,28 @@ class DioHelper {
     String? lang,
     String? token,
   }) async {
-    dio!.options.headers=
-    {
-      'lang':lang,
-      'Authorization':token,
-
+    dio!.options.headers = {
+      'lang': lang,
+      'Authorization': token,
     };
     return await dio!.get(url, queryParameters: query);
   }
 
-  static Future<Response> postData(
-      {
-        Map<String, dynamic>? query,
-      required String url,
-      required Map<String, dynamic> data,
-        String? lang,
-        String? token,
-      }) async {
-
-    dio!.options.headers=
-    {
-      'lang':lang,
-      'Authorization':token,
-
+  static Future<Response> postData({
+    Map<String, dynamic>? query,
+    required String url,
+    required Map<String, dynamic> data,
+    String? lang,
+    String? token,
+  }) async {
+    dio!.options.headers = {
+      'lang': lang,
+      'Authorization': token,
     };
     return dio!.post(
-        url,
-       queryParameters: query,
-        data: data,
+      url,
+      queryParameters: query,
+      data: data,
     );
   }
 }

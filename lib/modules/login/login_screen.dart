@@ -1,11 +1,12 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shop_app/modules/login_screen/cubit/cubit.dart';
-import 'package:shop_app/modules/login_screen/cubit/state.dart';
-import 'package:shop_app/modules/register_screen/register_screen.dart';
+import 'package:shop_app/layout/home_layout.dart';
+import 'package:shop_app/modules/login/cubit/cubit.dart';
+import 'package:shop_app/modules/login/cubit/state.dart';
+import 'package:shop_app/modules/register/register_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
+import 'package:shop_app/shared/network/local/cashe_helper.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
 class Login_Screen extends StatelessWidget {
@@ -19,34 +20,33 @@ class Login_Screen extends StatelessWidget {
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
+          if (state is LoginSuccessState) {
+            if (state.loginModel.status==true) {
+              CachHelper.saveData(key: 'token', value: state.loginModel.data!.token,).then((value)
+              {
+                if(value){
+              NavigatorAndFinish(context: context, Widget: Home_Layout());
 
-            if (state is LoginSuccessState) {
-              if (state.loginModel.status == true) {
-                Fluttertoast.showToast(
-                    msg: "${state.loginModel.message}",
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 5,
-                    backgroundColor: Colors.green,
-                    textColor: Colors.white,
-                    fontSize: 16.0
-                );
 
-              }else {
-                Fluttertoast.showToast(
-                msg: "${state.loginModel.message}",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 5,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0
-                );
+
+                }else{
+                  print('value false');
+                }
+
               }
-
+              );
+              ShowTost(
+                msg: "${state.loginModel.message}",
+                state: TostState.SUCCESS,
+              );
+            } else {
+              ShowTost(
+                msg: "${state.loginModel.message}",
+                state: TostState.ERROR,
+              );
             }
-          },
-
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             body: SafeArea(

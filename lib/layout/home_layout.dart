@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/modules/login_screen/login_screen.dart';
+import 'package:shop_app/modules/login/login_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/network/local/cashe_helper.dart';
 
