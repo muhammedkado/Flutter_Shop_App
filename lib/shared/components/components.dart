@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 NavigatorAndFinish({required context, required Widget}) =>
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (context) => Widget), (route) => false);
-Navigato({required context, required Widget}) => Navigator.push(
+Navigatorto({required context, required Widget}) => Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => Widget),
     );

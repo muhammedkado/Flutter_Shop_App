@@ -142,7 +142,7 @@ class Login_Screen extends StatelessWidget {
                               defaultTextButton(
                                   function: () {
                                     print('object');
-                                    Navigato(
+                                    Navigatorto(
                                         context: context,
                                         Widget: const RegisterScreen());
                                   },
