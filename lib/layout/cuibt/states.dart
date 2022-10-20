@@ -13,3 +13,21 @@ class HomeErrorState extends HomeState {
 }
 
 class ChangeBottomNavState extends HomeState {}
+
+class CategoriesSuccessState extends HomeState {}
+
+class CategoriesErrorState extends HomeState {
+  final String Error;
+
+  CategoriesErrorState(this.Error);
+
+}
+
+class FavoritesSuccessState extends HomeState {}
+
+class FavoritesErrorState extends HomeState {
+  final String Error;
+
+  FavoritesErrorState(this.Error);
+
+}

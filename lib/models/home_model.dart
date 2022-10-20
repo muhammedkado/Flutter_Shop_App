@@ -9,18 +9,18 @@ class HomeModel {
 }
 
 class HomeDataModel {
-  List<BannersModel>? banners = [];
-  List<ProductsMode>? products = [];
+  late List<BannersModel> banners = [];
+ late List<ProductsMode> products = [];
 
   HomeDataModel.fromJson(Map<String, dynamic> json) {
     json['banners'].forEach(
       (element) {
-        banners!.add(BannersModel.fromJson(element));
+        banners.add(BannersModel.fromJson(element));
       },
     );
     json['products'].forEach(
       (element) {
-        products!.add(ProductsMode.fromJson(element));
+        products.add(ProductsMode.fromJson(element));
       },
     );
   }
