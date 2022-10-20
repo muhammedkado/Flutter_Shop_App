@@ -17,4 +17,4 @@ void printFullText(String text){
     print(match.group(0))
   );
 }
-String Token='';
+String? Token='';

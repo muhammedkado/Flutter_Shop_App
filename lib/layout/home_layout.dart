@@ -6,7 +6,7 @@ import 'package:shop_app/modules/search/search_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
 
 class Home_Layout extends StatelessWidget {
-  Home_Layout({Key? key}) : super(key: key);
+  const Home_Layout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class Home_Layout extends StatelessWidget {
                   onPressed: () {
                     Navigatorto(context: context, Widget: const SearchScreen());
                   },
-                  icon: Icon(Icons.search)),
+                  icon: const Icon(Icons.search)),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -30,19 +30,19 @@ class Home_Layout extends StatelessWidget {
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'HOME',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                label: 'FAVORITE',
+                label: 'Home',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.grid_view),
-                label: 'CATEGORIES',
+                label: 'Categories',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                label: 'Favorite',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
-                label: 'SETTINGS',
+                label: 'Settings',
               ),
             ],
             onTap: (index) {
