@@ -23,6 +23,15 @@ class CategoriesErrorState extends HomeState {
 
 }
 
+class ChangeFavoritesSuccessState extends HomeState {}
+
+class ChangeFavoritesErrorState extends HomeState {
+  final String Error;
+
+  ChangeFavoritesErrorState(this.Error);
+
+}
+
 class FavoritesSuccessState extends HomeState {}
 
 class FavoritesErrorState extends HomeState {
@@ -31,3 +40,4 @@ class FavoritesErrorState extends HomeState {
   FavoritesErrorState(this.Error);
 
 }
+class FavoritesLoadingState extends HomeState {}
