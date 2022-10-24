@@ -5,6 +5,7 @@ import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/changefavorites.dart';
 import 'package:shop_app/models/favorites_model.dart';
 import 'package:shop_app/models/home_model.dart';
+import 'package:shop_app/models/login_model.dart';
 import 'package:shop_app/modules/catagories/catagories_screen.dart';
 import 'package:shop_app/modules/favorites/favorites_screen.dart';
 import 'package:shop_app/modules/products/products_screen.dart';
@@ -13,6 +14,7 @@ import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/components/constants.dart';
 import 'package:shop_app/shared/network/end_point.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';
+
 class HomeCuibt extends Cubit<HomeState> {
   HomeCuibt() : super(HomeInitialState());
 
@@ -20,7 +22,7 @@ class HomeCuibt extends Cubit<HomeState> {
 
   int CurrentIndex = 0;
 
-  List<Widget> BottomScreen = const [
+  List<Widget> BottomScreen = [
     ProductsScreen(),
     CategorieScreen(),
     FavoritesScreen(),
@@ -73,43 +75,42 @@ class HomeCuibt extends Cubit<HomeState> {
 
   ChangeFavoritesModel? changeFavoritesModel;
   void changeFavorites(int? productId) {
-
     favorits[productId!] = !favorits[productId]!;
     emit(ChangeFavoritesSuccessState());
     DioHelper.postData(
       url: FAVORITES,
-     token: Token,
-      data: {'product_id': productId},
+      token: Token,
+      data: {
+        'product_id': productId,
+      },
     ).then((value) {
       changeFavoritesModel = ChangeFavoritesModel.fromJson(value.data);
       emit(ChangeFavoritesSuccessState());
-      if(!changeFavoritesModel!.status!) {
-        ShowTost(msg:changeFavoritesModel!.message! , state: TostState.ERROR);
+      if (!changeFavoritesModel!.status!) {
+        ShowTost(msg: changeFavoritesModel!.message!, state: TostState.ERROR);
         favorits[productId] = !favorits[productId]!;
-      }else{
+      } else {
         getFavoritesData();
       }
-
     }).catchError((onError) {
       favorits[productId] = !favorits[productId]!;
       emit(ChangeFavoritesErrorState(
-          onError.toString(),
-        ));
-
+        onError.toString(),
+      ));
     });
   }
 
-  Favorites? favorites;
+  FavoritesModel? favorites;
 
-  void getFavoritesData() {
+  void getFavoritesData() async {
     emit(FavoritesLoadingState());
-    DioHelper.getData(
+    
+   await DioHelper.getData(
       url: FAVORITES,
-      token: Token
+      token: Token,
     ).then((value) {
-
-      favorites = Favorites.fromJson(value.data);
-     // printFullText(value.data.toString());
+      favorites = FavoritesModel.fromJson(value.data);
+      // printFullText(value.data.toString());
 
       emit(FavoritesSuccessState());
     }).catchError((onError) {
@@ -117,4 +118,47 @@ class HomeCuibt extends Cubit<HomeState> {
       emit(FavoritesErrorState(onError));
     });
   }
+
+   LoginModel? userModel;
+  void getUserData()async {
+    emit(ProfileLoadingState());
+  await  DioHelper.getData(
+      url: PROFILE,
+      token: Token,
+    ).then((value) {
+      userModel = LoginModel.fromJson(value.data);
+    print('userModel $Token');
+      emit(ProfileSuccessState());
+    }).catchError((erorr) {
+      print(erorr);
+      emit(ProfileErrorState(erorr));
+    });
+  }
+
+
+  //LoginModel? updateuserModel;
+  void updateUserData({
+    required String name,
+    required String email,
+    required String phone,
+  }) {
+    emit(UpdateLoadingState());
+      DioHelper.putData(
+      url: UPDET_PROFILE,
+      token: Token,
+      data: {
+        'email': email,
+        'name': name,
+        'phone': phone,
+      },
+    ).then((value) {
+        userModel = LoginModel.fromJson(value.data);
+      print('updateUserModel $Token');
+      emit(UpdateSuccessState());
+    }).catchError((erorr) {
+      print(erorr);
+      emit(UpdateErrorState(erorr));
+    });
+  }
+
 }

@@ -4,7 +4,7 @@ import 'package:shop_app/shared/network/local/cashe_helper.dart';
 
 void singOut(context){
 
-  CachHelper.removeData(key: 'token').then((value)
+  CachHelper.removeData(key:'token').then((value)
   {
     NavigatorAndFinish(context: context, Widget: Login_Screen());
   }) ;
