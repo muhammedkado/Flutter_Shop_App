@@ -20,7 +20,7 @@ class Home_Layout extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {
-                    Navigatorto(context: context, Widget: const SearchScreen());
+                    Navigatorto(context: context, Widget:  SearchScreen());
                   },
                   icon: const Icon(Icons.search)),
             ],
