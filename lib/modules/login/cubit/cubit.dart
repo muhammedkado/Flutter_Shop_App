@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/models/login_model.dart';
 import 'package:shop_app/modules/login/cubit/state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/shared/components/constants.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -24,6 +25,7 @@ class LoginCubit extends Cubit<LoginState> {
     ).then((value) {
       print(value.data);
       loginModel = LoginModel.fromJson(value.data);
+      Token=loginModel.data!.token;
       emit(LoginSuccessState(loginModel));
 
     }).catchError((onError) {

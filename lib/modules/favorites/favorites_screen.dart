@@ -1,5 +1,4 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/layout/cuibt/cuibt.dart';
@@ -9,16 +8,16 @@ import 'package:shop_app/shared/styles/colors.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCuibt, HomeState>(
         builder: (context, state) {
           return ConditionalBuilder(
             condition: state is! FavoritesLoadingState,
-            builder:(context)=> ListView.separated(
+            builder: (context) => ListView.separated(
                 itemBuilder: (context, index) => favoritesItem(
-                    HomeCuibt.get(context).favorites!.data!.data![index],context),
+                    HomeCuibt.get(context).favorites!.data!.data![index],
+                    context),
                 separatorBuilder: (context, index) => SizedBox(
                       height: 1,
                       child: Container(
@@ -29,13 +28,14 @@ class FavoritesScreen extends StatelessWidget {
                     ),
                 itemCount:
                     HomeCuibt.get(context).favorites!.data!.data!.length),
-            fallback:(context)=>const Center(child: CircularProgressIndicator()),
+            fallback: (context) =>
+                const Center(child: CircularProgressIndicator()),
           );
         },
         listener: (context, state) {});
   }
 
-  Widget favoritesItem(FavoritesData favoritesData ,context) => Padding(
+  Widget favoritesItem(FavoritesData favoritesData, context) => Padding(
         padding: const EdgeInsets.all(20.0),
         child: SizedBox(
           width: double.infinity,
@@ -47,7 +47,7 @@ class FavoritesScreen extends StatelessWidget {
                 children: [
                   Image(
                     image: NetworkImage('${favoritesData.product!.image}'),
-                    fit: BoxFit.cover,
+                    //fit: BoxFit.cover,
                     height: 120,
                     width: 120,
                   ),
@@ -62,7 +62,7 @@ class FavoritesScreen extends StatelessWidget {
                         ))
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
@@ -75,7 +75,7 @@ class FavoritesScreen extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 14, height: 1.1),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -100,15 +100,16 @@ class FavoritesScreen extends StatelessWidget {
                         const Spacer(),
                         IconButton(
                             onPressed: () {
-                               HomeCuibt.get(context).changeFavorites(favoritesData.product!.id);
+                              HomeCuibt.get(context)
+                                  .changeFavorites(favoritesData.product!.id);
                               //  print(model.id);
                             },
                             icon: CircleAvatar(
                               radius: 13,
-                              backgroundColor:
-                                  HomeCuibt.get(context).favorits[favoritesData.product!.id]!
-                                      ? defaultColor
-                                      : Colors.grey,
+                              backgroundColor: HomeCuibt.get(context)
+                                      .favorits[favoritesData.product!.id]!
+                                  ? defaultColor
+                                  : Colors.grey,
                               child: const Icon(
                                 Icons.favorite_border,
                                 color: Colors.white,

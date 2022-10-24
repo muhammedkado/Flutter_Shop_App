@@ -6,6 +6,7 @@ import 'package:shop_app/modules/login/cubit/cubit.dart';
 import 'package:shop_app/modules/login/cubit/state.dart';
 import 'package:shop_app/modules/register/register_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
+import 'package:shop_app/shared/components/constants.dart';
 import 'package:shop_app/shared/network/local/cashe_helper.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
@@ -21,20 +22,19 @@ class Login_Screen extends StatelessWidget {
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginSuccessState) {
-            if (state.loginModel.status==true) {
-              CachHelper.saveData(key: 'token', value: state.loginModel.data!.token,).then((value)
-              {
-                if(value){
-              NavigatorAndFinish(context: context, Widget: Home_Layout());
+            if (state.loginModel.status == true) {
+              CachHelper.saveData(
+                key : 'token',
+                value: state.loginModel.data!.token,
+              ).then((value) {
 
-
-
-                }else{
-                  print('value false');
-                }
-
-              }
-              );
+                Token = state.loginModel.data!.token;
+                print('Login : $Token');
+                NavigatorAndFinish(
+                  context: context,
+                  Widget:const Home_Layout(),
+                );
+              });
               ShowTost(
                 msg: "${state.loginModel.message}",
                 state: TostState.SUCCESS,
@@ -144,7 +144,7 @@ class Login_Screen extends StatelessWidget {
                                     print('object');
                                     Navigatorto(
                                         context: context,
-                                        Widget: const RegisterScreen());
+                                        Widget:  RegisterScreen());
                                   },
                                   lable: 'Register ')
                             ],
