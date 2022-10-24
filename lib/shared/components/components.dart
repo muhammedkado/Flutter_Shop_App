@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shop_app/layout/cuibt/cuibt.dart';
+import 'package:shop_app/shared/styles/colors.dart';
 
 NavigatorAndFinish({required context, required Widget}) =>
     Navigator.pushAndRemoveUntil(context,
@@ -125,3 +127,95 @@ Color? ChooseTostColor(TostState state) {
   }
   return color;
 }
+
+
+Widget productItem(model, context, {bool isOldPrice = true}) => Padding(
+  padding: const EdgeInsets.all(20.0),
+  child: SizedBox(
+    width: double.infinity,
+    height: 120,
+    child: Row(
+      children: [
+        Stack(
+          alignment: Alignment.bottomLeft,
+          children: [
+            Image(
+              image: NetworkImage('${model.image}'),
+              //fit: BoxFit.cover,
+              height: 120,
+              width: 120,
+            ),
+            if (model.discount != 0 &&isOldPrice)
+              Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 5, vertical: 1),
+                  color: Colors.red,
+                  child: const Text(
+                    'DISCOUNT',
+                    style: TextStyle(color: Colors.white, fontSize: 10),
+                  ))
+          ],
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                ' ${model.name}',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 14, height: 1.1),
+              ),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    '${model.price}',
+                    style: const TextStyle(
+                      color: defaultColor,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  if (model.discount != 0&&isOldPrice)
+                    Text(
+                      '${model.oldPrice.round()}',
+                      style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 11,
+                          decoration: TextDecoration.lineThrough),
+                    ),
+                  const Spacer(),
+                  IconButton(
+                      onPressed: () {
+                        HomeCuibt.get(context)
+                            .changeFavorites(model.id);
+                        //  print(model.id);
+                      },
+                      icon: CircleAvatar(
+                        radius: 13,
+                        backgroundColor: HomeCuibt.get(context)
+                            .favorits[model.id]!
+                            ? defaultColor
+                            : Colors.grey,
+                        child: const Icon(
+                          Icons.favorite_border,
+                          color: Colors.white,
+                          size: 14,
+                        ),
+                      )),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+);
